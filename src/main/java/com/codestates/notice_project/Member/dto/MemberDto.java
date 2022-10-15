@@ -1,5 +1,7 @@
 package com.codestates.notice_project.Member.dto;
 
+import lombok.Setter;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -18,6 +20,7 @@ public class MemberDto {
         private String email;
     }
 
+    @Setter
     public class Patch {
 
         private long memberId;
