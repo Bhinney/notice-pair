@@ -3,6 +3,8 @@ package com.codestates.notice_project.board.service;
 import com.codestates.notice_project.board.entity.Board;
 import com.codestates.notice_project.board.repository.BoardRepository;
 
+import com.codestates.notice_project.exception.BusinessLogicException;
+import com.codestates.notice_project.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -62,7 +64,7 @@ public class BoardService {
     // 존재하는 게시물인지 확인 --> for 수정, 조회, 삭제
     private Board findVerifiedBoard(long boardId){
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
-        Board findBoard = optionalBoard.orElseThrow(() -> new RuntimeException("BOARD_NOT_FOUND"));
+        Board findBoard = optionalBoard.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
         return findBoard;
     }
