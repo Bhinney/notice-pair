@@ -2,6 +2,9 @@ package com.codestates.notice_project.Member.service;
 
 import com.codestates.notice_project.Member.entity.Member;
 import com.codestates.notice_project.Member.repository.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -35,6 +38,7 @@ public class MemberService {
         // 수정 사항이 있으면 데이터 변경
         Optional.ofNullable(member.getName()).ifPresent(name -> findMember.setName(name));
         Optional.ofNullable(member.getPassword()).ifPresent(password -> findMember.setPassword(password));
+        Optional.ofNullable(member.getMemberStatus()).ifPresent(memberStatus -> findMember.setMemberStatus(memberStatus));
 
         return memberRepository.save(findMember);
     }
@@ -45,8 +49,8 @@ public class MemberService {
     }
 
     // 멤버 목록 조회
-    public Member findMembers(int page, int size) {
-        return null;
+    public Page<Member> findMembers(int page, int size) {
+        return memberRepository.findAll(PageRequest.of(page, size, Sort.by("memberId").descending()));
     }
 
     // 멤버 삭제

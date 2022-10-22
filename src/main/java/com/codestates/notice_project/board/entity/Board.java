@@ -1,11 +1,14 @@
 package com.codestates.notice_project.board.entity;
 
+import com.codestates.notice_project.Member.entity.MemberBoard;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +29,16 @@ public class Board {
     @Enumerated(value = EnumType.STRING)
     @Column(length = 50, nullable = false)
     private BoardStatus boardStatus = BoardStatus.BOARD_PUBLIC;
+
+    @OneToMany(mappedBy = "board")
+    private List<MemberBoard> memberBoards = new ArrayList<>();
+
+    public void addMemberBoard(MemberBoard memberBoard) {
+        this.memberBoards.add(memberBoard);
+        if (memberBoard.getBoard() != this) {
+            memberBoard.addBoard(this);
+        }
+    }
 
     public Board(long boardId, String writer, String comment) {
         this.boardId = boardId;

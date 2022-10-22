@@ -4,6 +4,7 @@ import com.codestates.notice_project.Member.dto.MemberDto;
 import com.codestates.notice_project.Member.entity.Member;
 import com.codestates.notice_project.Member.mapper.MemberMapper;
 import com.codestates.notice_project.Member.service.MemberService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -11,14 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
 @Validated
 public class MemberController {
 
-    private MemberService memberService;
-    private MemberMapper mapper;
+    private final MemberService memberService;
+    private final MemberMapper mapper;
 
     public MemberController(MemberService memberService, MemberMapper mapper) {
         this.memberService = memberService;
@@ -63,7 +65,12 @@ public class MemberController {
     @GetMapping
     public ResponseEntity getMembers(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
-        return null;
+
+        Page<Member> members = memberService.findMembers(page - 1, size);
+        List<Member> memberList = members.getContent();
+        List<MemberDto.Response> responses = mapper.membersToMemberResponse(memberList);
+
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
     //Member 삭제
