@@ -4,6 +4,7 @@ import com.codestates.notice_project.board.entity.Board;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 public class BoardDto {
 

@@ -1,13 +1,14 @@
 package com.codestates.notice_project.Member.dto;
 
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class MemberDto {
 
-    public class Post {
+    @Getter
+    public static class Post {
 
         @NotBlank(message = "이름을 입력하세요.")
         private String name;
@@ -20,23 +21,19 @@ public class MemberDto {
         private String email;
     }
 
-    @Setter
-    public class Patch {
+    @Getter
+    public static class Patch {
 
+        @Setter
         private long memberId;
-
-        @NotBlank(message = "이름을 입력하세요.")
         private String name;
-
-        @NotBlank
         private String password;
-
-        @NotBlank
-        @Email
         private String email;
     }
 
-    public class Response {
+    @AllArgsConstructor
+    @Getter
+    public static class Response {
 
         private long memberId;
         private String name;
